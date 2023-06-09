@@ -1,0 +1,61 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default"/>
+
+<f:section name="Content">
+    <f:be.pageRenderer pageTitle="Analytics"/>
+    <section class="tab-container">
+        <ul class="tabs">
+            <li class="active"><a href="#requests" data-tab-id="0">
+                <f:translate key="dashboard.requests" extensionName="NsCloudflare"/>
+            </a></li>
+            <li class=""><a href="#bandwidth" data-tab-id="1">
+                <f:translate key="dashboard.bandwidth" extensionName="NsCloudflare"/>
+            </a></li>
+            <li class=""><a href="#unique-visitors" data-tab-id="2">
+                <f:translate key="dashboard.uniques" extensionName="NsCloudflare"/>
+            </a></li>
+            <li class=""><a href="#threats" data-tab-id="3">
+                <f:translate key="dashboard.threats" extensionName="NsCloudflare"/>
+            </a></li>
+        </ul>
+
+        <div class="tab-content show" id="requests">
+            <f:render partial="Tab/Requests"/>
+        </div>
+
+        <div class="tab-content" id="bandwidth">
+            <f:render partial="Tab/Bandwidth"/>
+        </div>
+
+        <div class="tab-content" id="unique-visitors">
+            <f:render partial="Tab/Uniques"/>
+        </div>
+
+        <div class="tab-content" id="threats">
+            <f:render partial="Tab/Threats"/>
+        </div>
+    </section>
+
+    <section class="analytics">
+        <h2>
+            <f:translate key="dashboard.performanceSecurity" extensionName="NsCloudflare"/>
+        </h2>
+
+        <ul class="blocks">
+            <li>
+                <f:render partial="Box/BandwidthSaved"/>
+            </li>
+            <li>
+                <f:render partial="Box/ContentType"/>
+            </li>
+            <li>
+                <f:render partial="Box/Ssl"/>
+            </li>
+        </ul>
+
+    </section>
+
+</f:section>
+</html>

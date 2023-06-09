@@ -1,0 +1,38 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+    bind:
+      $cloudflareService: '@service.ns_cloudflare'
+
+  NITSAN\NsCloudflare\:
+    resource: '../Classes/*'
+
+  # Define generic cloudflare service
+  service.ns_cloudflare:
+    class: NITSAN\NsCloudflare\Services\CloudflareService
+    factory: '@NITSAN\NsCloudflare\Factory\CloudflareServiceFactory'
+
+  # Add custom toolbar
+  NITSAN\NsCloudflare\Backend\Event\CloudflareClearCacheActionsEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'ns-cloudflare/toolbar/clear-cache-actions-listener'
+        event: TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent
+
+  # All classes that uses DI and are invoked through GeneralUtility::makeInstance are
+  # required to be public
+  NITSAN\NsCloudflare\Controller\DashboardController:
+    public: true
+
+  NITSAN\NsCloudflare\ExtensionManager\Configuration:
+    public: true
+
+  NITSAN\NsCloudflare\Hooks\TCEmain:
+    public: true
+
+  NITSAN\NsCloudflare\Backend\ToolbarItems\CloudflareToolbarItem:
+    public: true
+    tags:
+      - name: backend.toolbar.item

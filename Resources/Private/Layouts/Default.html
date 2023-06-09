@@ -1,0 +1,26 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+      <link rel="stylesheet" type="text/css" href="{f:uri.resource(path:'Css/dashboard.css', extensionName: 'ns_cloudflare')}" media="all">
+<f:be.pageRenderer
+    includeRequireJsModules="{
+        0: 'TYPO3/CMS/Core/Ajax/AjaxRequest',
+        1: 'TYPO3/CMS/NsCloudflare/Toolbar/CloudflareMenu',
+        2: 'TYPO3/CMS/NsCloudflare/analytics', 
+        3: 'TYPO3/CMS/NsCloudflare/amcharts/amcharts',
+        4: 'TYPO3/CMS/NsCloudflare/amcharts/serial',
+        5:'TYPO3/CMS/NsCloudflare/amcharts/pie',
+        6:'TYPO3/CMS/NsCloudflare/amcharts/themes/light'
+    }"
+    addJsInlineLabels="{
+        0: 'dashboard.requests',
+        1: 'dashboard.uniques',
+        2: 'dashboard.threats',
+        3: 'dashboard.cached',
+        4: 'dashboard.uncached',
+        5: 'dashboard.encrypted',
+        6: 'dashboard.unencrypted'
+    }"/>
+
+<f:render section="Content"/>
+
+</html>
