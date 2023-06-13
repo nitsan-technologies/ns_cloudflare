@@ -162,19 +162,19 @@ class CloudflareToolbarItem implements ToolbarItemInterface
         $content = '';
         $version = GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion();
         if ($version == 11) {
-
             if (!empty($entries)) {
                 $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
                 $content .= '<div class="dropdown-table">' . implode('', $entries) . '</div>';
             } else {
                 $content .= '<p>' . $languageService->sL('no_domains') . '</p>';
             }
-        }
-        if (!empty($entries)) {
-            $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
-            $content .= '<ul class="dropdown-list">' . implode('', $entries) . '</ul>';
-        } else {
-            $content .= '<p>' . $languageService->sL('no_domains') . '</p>';
+        }else{
+            if (!empty($entries)) {
+                $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
+                $content .= '<ul class="dropdown-list">' . implode('', $entries) . '</ul>';
+            } else {
+                $content .= '<p>' . $languageService->sL('no_domains') . '</p>';
+            }
         }
 
         return $content;
