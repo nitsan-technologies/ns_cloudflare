@@ -166,14 +166,14 @@ class CloudflareToolbarItem implements ToolbarItemInterface
                 $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
                 $content .= '<div class="dropdown-table">' . implode('', $entries) . '</div>';
             } else {
-                $content .= '<p>' . $languageService->sL('no_domains') . '</p>';
+                $content .= '<p class="dropdown-headline">' . $languageService->sL('No domains configured.') . '</p>';
             }
         }else{
             if (!empty($entries)) {
                 $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
                 $content .= '<ul class="dropdown-list">' . implode('', $entries) . '</ul>';
             } else {
-                $content .= '<p>' . $languageService->sL('no_domains') . '</p>';
+                $content .= '<p class="dropdown-headline">' . $languageService->sL('No domains configured.') . '</p>';
             }
         }
 
@@ -318,6 +318,8 @@ class CloudflareToolbarItem implements ToolbarItemInterface
 
         return new JsonResponse([
             'success' => true,
+            'title' => 'Caches cleared',
+            'message' => 'Successfully cleared cloudflare caches.'
         ]);
     }
 

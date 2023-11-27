@@ -45,9 +45,9 @@ define([
         var $toolbarItemIcon = $(CloudflareMenu.options.toolbarIconSelector, CloudflareMenu.options.containerSelector),
             $existingIcon = $toolbarItemIcon.clone();
 
-        Icons.getIcon('spinner-circle-light', Icons.sizes.small).done(function(spinner) {
-            $toolbarItemIcon.replaceWith(spinner);
-        });
+        // Icons.getIcon('spinner-circle-light', Icons.sizes.small).done(function(spinner) {
+        //     $toolbarItemIcon.replaceWith(spinner);
+        // });
 
         $.ajax({
             url: TYPO3.settings.ajaxUrls['cloudflare_rendermenu'],
@@ -73,9 +73,9 @@ define([
         var $toolbarItemIcon = $(CloudflareMenu.options.toolbarIconSelector, CloudflareMenu.options.containerSelector),
             $existingIcon = $toolbarItemIcon.clone();
 
-        Icons.getIcon('spinner-circle-light', Icons.sizes.small).done(function(spinner) {
-            $toolbarItemIcon.replaceWith(spinner);
-        });
+        // Icons.getIcon('spinner-circle-light', Icons.sizes.small).done(function(spinner) {
+        //     $toolbarItemIcon.replaceWith(spinner);
+        // });
 
         TYPO3.CloudflareMenu.toggleMenu();
 

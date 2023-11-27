@@ -1,10 +1,28 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
-<f:layout name="Default"/>
+<f:layout name="Cloud"/>
 
 <f:section name="Content">
     <f:be.pageRenderer pageTitle="Analytics"/>
+    <div class="header">
+        <div class="left">
+            <f:if condition="{zones -> f:count()} > 1">
+                <f:then>
+                    <f:form.select id="zone" options="{zones}"/>
+                </f:then>
+                <f:else>
+                    <h1>{defaultZone}</h1>
+                    <input type="hidden" id="zone" value="{defaultIdentifier}"/>
+                </f:else>
+            </f:if>
+        </div>
+        <f:if condition="{periods}">
+            <div class="right">
+                <f:form.select id="period" options="{periods}" value="1440"/>
+            </div>
+        </f:if>
+    </div>
     <section class="tab-container">
         <ul class="tabs">
             <li class="active"><a href="#requests" data-tab-id="0">

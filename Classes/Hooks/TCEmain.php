@@ -134,9 +134,7 @@ class TCEmain
                 if(!defined('LF')) {define('LF', chr(10));}
                 if ($ret['success']) {
                     $this->writelog(4, 1, 0, 0, 'User %s cleared the cache on Cloudflare (domain: "%s")', [$this->backendUserAspect->get('username'), $zoneName]);
-                } else {
-                    $this->writelog(4, 1, 1, 0, 'User %s failed to clear the cache on Cloudflare (domain: "%s"): %s', [$this->backendUserAspect->get('username'), $zoneName, implode(LF, $ret['errors'])]);
-                }
+                } 
 
             } catch (\RuntimeException $e) {
                 $this->writelog(4, 1, 1, 0, $e->getMessage(), []);

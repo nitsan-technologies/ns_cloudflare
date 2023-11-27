@@ -195,67 +195,69 @@ require(['TYPO3/CMS/Core/Ajax/AjaxRequest'], function (AjaxRequest) {
                     if (!data) {
                         console.log('No data retrieved, skip processing');
                         return;
-                    }
+                    } else {
 
-                    self.timeseries = data.timeseries;
-                    self.totals = data.totals;
-
-                    // Update the list of available periods
-                    const periods = document.getElementById('period');
-                    while (periods.firstChild) {
-                        periods.removeChild(el.firstChild);
-                    }
-
-                    Array.prototype.forEach.call(data.periods, function (label, value) {
-                        let option = document.createElement('option')
-                        option.value = value;
-                        option.text = label;
-
-                        periods.add(option);
-                    });
-                    periods.value = since;
-
-                    self.createCacheGraph('chartRequests', 'requests');
-                    self.createCacheGraph('chartBandwidth', 'bandwidth');
-                    self.createSimpleGraph('chartUniques', 'uniques');
-                    self.createThreatsGraph('chartThreats');
-
-                    var donutData = [
-                        {
-                            'title': TYPO3.lang['dashboard.cached'],
-                            'value': data.totals.bandwidth.cached
-                        },
-                        {
-                            'title': TYPO3.lang['dashboard.uncached'],
-                            'value': data.totals.bandwidth.uncached
+                        self.timeseries = data.timeseries;
+                        self.totals = data.totals;
+    
+                        // Update the list of available periods
+                        const periods = document.getElementById('period');
+                        while (periods.firstChild) {
+                            periods.removeChild(el.firstChild);
                         }
-                    ];
-                    self.createDonut('donutBandwidth', donutData, ['#9bca3e', '#ebebeb']);
-
-                    donutData = [];
-                    Array.prototype.forEach.call(data.totals.requests.content_type, function (count, type) {
-                        donutData.push({
-                            'title': type,
-                            'value': count
+    
+                        Array.prototype.forEach.call(data.periods, function (label, value) {
+                            let option = document.createElement('option')
+                            option.value = value;
+                            option.text = label;
+    
+                            periods.add(option);
                         });
-                    });
-                    self.createDonut('donutContentType', donutData);
+                        periods.value = since;
+    
+                        self.createCacheGraph('chartRequests', 'requests');
+                        self.createCacheGraph('chartBandwidth', 'bandwidth');
+                        self.createSimpleGraph('chartUniques', 'uniques');
+                        self.createThreatsGraph('chartThreats');
+    
+                        var donutData = [
+                            {
+                                'title': TYPO3.lang['dashboard.cached'],
+                                'value': data.totals.bandwidth.cached
+                            },
+                            {
+                                'title': TYPO3.lang['dashboard.uncached'],
+                                'value': data.totals.bandwidth.uncached
+                            }
+                        ];
+                        self.createDonut('donutBandwidth', donutData, ['#9bca3e', '#ebebeb']);
+    
+                        donutData = [];
+                        Array.prototype.forEach.call(data.totals.requests.content_type, function (count, type) {
+                            donutData.push({
+                                'title': type,
+                                'value': count
+                            });
+                        });
+                        self.createDonut('donutContentType', donutData);
+    
+                        donutData = [
+                            {
+                                'title': TYPO3.lang['dashboard.encrypted'],
+                                'value': data.totals.requests.ssl.encrypted
+                            },
+                            {
+                                'title': TYPO3.lang['dashboard.unencrypted'],
+                                'value': data.totals.requests.ssl.unencrypted
+                            }
+                        ];
+                        self.createDonut('donutSsl', donutData, ['#2f7bbf', '#ebebeb']);
+                        const blocks = document.querySelectorAll('.blocks small');
+                        Array.prototype.forEach.call(blocks, function (el) {
+                            el.innerHTML = data.period;
+                        });
+                    }
 
-                    donutData = [
-                        {
-                            'title': TYPO3.lang['dashboard.encrypted'],
-                            'value': data.totals.requests.ssl.encrypted
-                        },
-                        {
-                            'title': TYPO3.lang['dashboard.unencrypted'],
-                            'value': data.totals.requests.ssl.unencrypted
-                        }
-                    ];
-                    self.createDonut('donutSsl', donutData, ['#2f7bbf', '#ebebeb']);
-                    const blocks = document.querySelectorAll('.blocks small');
-                    Array.prototype.forEach.call(blocks, function (el) {
-                        el.innerHTML = data.period;
-                    });
                 })
                 .catch(function (reason) {
                     console.error('CloudFlare: Analytics called .catch on %o with arguments: %o', this, arguments);
@@ -265,6 +267,20 @@ require(['TYPO3/CMS/Core/Ajax/AjaxRequest'], function (AjaxRequest) {
 
     var cloudflareEventListeners = function () {
         const tabLinks = document.querySelectorAll('.tabs a');
+        var targetDiv = document.querySelector('.module[data-module-name="txcloudflare"]');
+        if(targetDiv){
+            var loadingIndicator = document.querySelector('.module-loading-indicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+        
+            // Remove elements with class 't3js-module-docheader'
+            var docheader = document.querySelector('.t3js-module-docheader');
+            if (docheader) {
+                docheader.remove();
+            }
+        
+        }
         Array.prototype.forEach.call(tabLinks, function (tabLink) {
             tabLink.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -290,22 +306,27 @@ require(['TYPO3/CMS/Core/Ajax/AjaxRequest'], function (AjaxRequest) {
 
 
         document.getElementById('requests').style.display = '';
-        const period = document.querySelector('select[name=period]');
-        const zone = document.querySelector('select[name=zone]');
+        const period = document.querySelector('#period');
+        const zone = document.querySelector('#zone');
 
-        zone.addEventListener('change', function () {
-            CloudflareAnalytics.update(zone.value, period.value);
-        });
+        if (zone) {
+            zone.addEventListener('change', function () {
+                CloudflareAnalytics.update(zone.value, period.value);
+            });
+        }
 
-
-        period.addEventListener('change', function () {
-            CloudflareAnalytics.update(zone.value, period.value);
-        });
+        if (period) {
+            period.addEventListener('change', function () {
+                CloudflareAnalytics.update(zone.value, period.value);
+            });
+        }
 
         // Trigger change event by default for period
         var event = document.createEvent('HTMLEvents');
         event.initEvent('change', true, false);
-        period.dispatchEvent(event);
+        if (period) {
+            period.dispatchEvent(event);
+        }
     }
 
     if (document.readyState !== 'loading') {

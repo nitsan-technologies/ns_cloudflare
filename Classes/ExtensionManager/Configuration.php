@@ -54,6 +54,19 @@ class Configuration implements SingletonInterface
      */
     public function getDomains(array $params)
     {
+        $extConf = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class);
+        $extensionConf = $extConf->get('ns_cloudflare');
+        $domainWithKey = explode(',',$extensionConf['domains']);
+        $selectedDomains = [];
+        foreach($domainWithKey as $domainData) {
+            $mainDomain = explode('|',$domainData);
+            if (!empty($mainDomain))
+            {
+                if(isset($mainDomain[1])) {
+                    $selectedDomains[] = $mainDomain[1];
+                }
+            }
+        }
         $domains = [];
         $out = [];
         try {
@@ -77,7 +90,6 @@ class Configuration implements SingletonInterface
         }
 
         $i = 0;
-        $selectedDomains = GeneralUtility::trimExplode(',', $params['fieldValue'], true);
 
         if (!empty($domains)) {
             $out[] = '<table class="table table-striped table-hover">';

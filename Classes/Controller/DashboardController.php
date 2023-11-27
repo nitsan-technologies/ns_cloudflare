@@ -87,9 +87,9 @@ class DashboardController extends ActionController
 
         $this->view->assignMultiple($assign);
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $this->addZoneAndPeriodsToButtonBar($moduleTemplate->getDocHeaderComponent());
+        // $this->addZoneAndPeriodsToButtonBar($moduleTemplate->getDocHeaderComponent());
         $moduleTemplate->setContent($this->view->render());
-
+        
         return new HtmlResponse($moduleTemplate->renderContent());
     }
 
@@ -203,7 +203,7 @@ class DashboardController extends ActionController
         $data = [
             'periods' => $availablePeriods,
             'period' => $this->translate('period.' . $since),
-            'timeseries' => $cfData['result']['timeseries'],
+            'timeseries' => isset($cfData['result']['timeseries']) ? $cfData['result']['timeseries']:[],
         ];
 
         // Compute some additional statistics
@@ -254,33 +254,34 @@ class DashboardController extends ActionController
 
             $data['timeseries'][$tsKey]['threats'] = $threats;
         }
+        if(isset($data['totals'])) {
+            $data['totals'] = array_merge_recursive($cfData['result']['totals'], [
+                'requests' => [
+                    'c1' => number_format($cfData['result']['totals']['requests']['all']),
+                    'c2' => number_format($cfData['result']['totals']['requests']['cached']),
+                    'c3' => number_format($cfData['result']['totals']['requests']['uncached']),
+                ],
+                'bandwidth' => [
+                    'c1' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['all']),
+                    'c2' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['cached']),
+                    'c3' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['uncached']),
+                ],
+                'uniques' => [
+                    'c1' => number_format($cfData['result']['totals']['uniques']['all']),
+                    'c2' => $uniquesMaximum,
+                    'c3' => $uniquesMinimum,
+                ],
+                'threats' => [
+                    'c1' => number_format($cfData['result']['totals']['threats']['all']),
+                    'c2' => $threatsTopCountry,
+                    'c3' => $threatsTopType,
+                ],
+            ]);
+            // Sort some data for better display as graphs
+            arsort($data['totals']['bandwidth']['content_type']);
+            arsort($data['totals']['requests']['content_type']);
+        }
 
-        $data['totals'] = array_merge_recursive($cfData['result']['totals'], [
-            'requests' => [
-                'c1' => number_format($cfData['result']['totals']['requests']['all']),
-                'c2' => number_format($cfData['result']['totals']['requests']['cached']),
-                'c3' => number_format($cfData['result']['totals']['requests']['uncached']),
-            ],
-            'bandwidth' => [
-                'c1' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['all']),
-                'c2' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['cached']),
-                'c3' => GeneralUtility::formatSize($cfData['result']['totals']['bandwidth']['uncached']),
-            ],
-            'uniques' => [
-                'c1' => number_format($cfData['result']['totals']['uniques']['all']),
-                'c2' => $uniquesMaximum,
-                'c3' => $uniquesMinimum,
-            ],
-            'threats' => [
-                'c1' => number_format($cfData['result']['totals']['threats']['all']),
-                'c2' => $threatsTopCountry,
-                'c3' => $threatsTopType,
-            ],
-        ]);
-
-        // Sort some data for better display as graphs
-        arsort($data['totals']['bandwidth']['content_type']);
-        arsort($data['totals']['requests']['content_type']);
 
         return new JsonResponse($data);
     }
