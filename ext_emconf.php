@@ -2,13 +2,12 @@
 
 $EM_CONF['ns_cloudflare'] = [
     'title' => '[NITSAN] Cloudflare',
+    'description' => 'The Cloudflare TYPO3 extension ensures your TYPO3 website is running optimally on the Cloudflare platform.',
     'category' => 'services',
-    'author' => 'Team NITSAN',
+    'author' => 'T3: Nilesh Malankiya, T3: Rohan Parmar',
     'author_company' => 'NITSAN Technologies',
     'author_email' => 'sanjay@nitsan.in',
     'state' => 'stable',
-    'uploadfolder' => false,
-    'createDirs' => '',
     'version' => '1.0.0',
     'constraints' => [
         'depends' => [
