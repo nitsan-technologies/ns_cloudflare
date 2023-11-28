@@ -45,18 +45,20 @@ class DashboardController extends ActionController
     /** @var array */
     protected $zones;
 
+    protected  ModuleTemplateFactory $moduleTemplateFactory;
+
     /**
      * @param \TYPO3\CMS\Backend\Template\ModuleTemplateFactory $moduleTemplateFactory
      * @param \TYPO3\CMS\Core\Configuration\ExtensionConfiguration $extensionConfiguration
      * @param \NITSAN\NsCloudflare\Services\CloudflareService $cloudflareService
      */
     public function __construct(
-        protected  ModuleTemplateFactory $moduleTemplateFactory,
+        ModuleTemplateFactory $moduleTemplateFactory,
         ExtensionConfiguration $extensionConfiguration,
         CloudflareService $cloudflareService
     ) {
         $this->config = $extensionConfiguration->get(Configuration::KEY);
-
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->cloudflareService = $cloudflareService;
         $domains = GeneralUtility::trimExplode(',', $this->config['domains'], true);
         $this->zones = [];
@@ -192,7 +194,7 @@ class DashboardController extends ActionController
         }
         try {
             $cfData = $this->cloudflareService->send('/zones/' . $zone . '/analytics/dashboard', ['since' => -$since]);
-        } catch (\RuntimeException) {
+        } catch (\RuntimeException $e) {
             $cfData = [];
         }
 
@@ -308,7 +310,7 @@ class DashboardController extends ActionController
         ];
         try {
             $info = $this->cloudflareService->send('/zones/' . $zone);
-        } catch (\RuntimeException) {
+        } catch (\RuntimeException $e) {
             $info = [];
         }
 

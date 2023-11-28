@@ -64,7 +64,7 @@ class CloudflareToolbarItem implements ToolbarItemInterface
     {
         try {
             return $this->context->getPropertyFromAspect('backend.user', 'isAdmin');
-        } catch (AspectNotFoundException) {
+        } catch (AspectNotFoundException $e) {
             return false;
         }
     }

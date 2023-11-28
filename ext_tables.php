@@ -3,7 +3,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Information\Typo3Version;
 
-defined('TYPO3') || die();
+defined('TYPO3') || defined('TYPO3_MODE') || die();
 
 $_EXTKEY = 'ns_cloudflare';
 
