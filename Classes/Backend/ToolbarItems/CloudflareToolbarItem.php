@@ -27,6 +27,7 @@ use TYPO3\CMS\Backend\Toolbar\ToolbarItemInterface;
 use NITSAN\NsCloudflare\ExtensionManager\Configuration;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Exception\AspectNotFoundException;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * Toolbar Menu handler.
@@ -51,8 +52,7 @@ class CloudflareToolbarItem implements ToolbarItemInterface
         $this->config = $extensionConfiguration->get(Configuration::KEY);
         $this->context = $context;
         $this->cloudflareService = $cloudflareService;
-        $this->getLanguageService()->includeLLFile('EXT:ns_cloudflare/Resources/Private/Language/locallang.xlf');
-        // $this->getPageRenderer()->loadJavaScriptModule('TYPO3/CMS/Cloudflare/Toolbar/CloudflareMenu');
+        $this->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/NsCloudflare/Toolbar/CloudflareMenu');
     }
 
     /**
@@ -79,8 +79,7 @@ class CloudflareToolbarItem implements ToolbarItemInterface
         if(!defined('LF')) {
             define('LF', chr(10));
         }
-        $title = $this->getLanguageService()->sL('toolbarItem');
-
+        $title = (string)$this->getLocalizedLabel('toolbarItem');
         $item = [];
         $item[] = '<span title="' . htmlspecialchars($title) . '">' . $this->getSpriteIcon('extensions-ns_cloudflare-cloudflare-icon', [], 'inline') . '</span>';
         $badgeClasses = ['badge', 'badge-danger', 'toolbar-item-badge'];
@@ -96,7 +95,6 @@ class CloudflareToolbarItem implements ToolbarItemInterface
      */
     public function getDropDown(): string
     {
-        $languageService = $this->getLanguageService();
         $entries = [];
         $version = GeneralUtility::makeInstance(Typo3Version::class)->getMajorVersion();
         $domains = GeneralUtility::trimExplode(',', $this->config['domains'], true);
@@ -133,9 +131,9 @@ class CloudflareToolbarItem implements ToolbarItemInterface
                             $entries[] = htmlspecialchars($zone['name']);
                             if ($active !== null) {
                                 $onClickCode = 'TYPO3.CloudflareMenu.toggleDevelopmentMode(\'' . $identifier . '\', ' . $active . '); return false;';
-                                $entries[] = '<a href="#" onclick="' . htmlspecialchars($onClickCode) . '">' . $languageService->sL('toggle_development') . '</a>';
+                                $entries[] = '<a href="#" onclick="' . htmlspecialchars($onClickCode) . '">' . $this->getLocalizedLabel('toggle_development') . '</a>';
                             } else {
-                                $entries[] = $languageService->sL('zone_inactive');
+                                $entries[] = $this->getLocalizedLabel('zone_inactive');
                             }
                             $entries[] = '    </div>';
                             $entries[] = '</div>';
@@ -147,9 +145,9 @@ class CloudflareToolbarItem implements ToolbarItemInterface
                             $entries[] = '<br><small class="text-body-secondary">';
                             if ($active !== null) {
                                 $onClickCode = 'TYPO3.CloudflareMenu.toggleDevelopmentMode(\'' . $identifier . '\', ' . $active . '); return false;';
-                                $entries[] = '<a href="#" onclick="' . htmlspecialchars($onClickCode) . '">' . $languageService->sL('toggle_development') . '</a>';
+                                $entries[] = '<a href="#" onclick="' . htmlspecialchars($onClickCode) . '">' . $this->getLocalizedLabel('toggle_development') . '</a>';
                             } else {
-                                $entries[] = $languageService->sL('zone_inactive');
+                                $entries[] = $this->getLocalizedLabel('zone_inactive');
                             }
                             $entries[] = '</small></span></span></div></li></ul>';
                         }
@@ -166,14 +164,14 @@ class CloudflareToolbarItem implements ToolbarItemInterface
                 $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
                 $content .= '<div class="dropdown-table">' . implode('', $entries) . '</div>';
             } else {
-                $content .= '<p class="dropdown-headline">' . $languageService->sL('No domains configured.') . '</p>';
+                $content .= '<p class="dropdown-headline">' . $this->getLocalizedLabel('No domains configured.') . '</p>';
             }
         }else{
             if (!empty($entries)) {
                 $content .= '<h3 class="dropdown-headline">[NITSAN] Cloudflare</h3>';
                 $content .= '<ul class="dropdown-list">' . implode('', $entries) . '</ul>';
             } else {
-                $content .= '<p class="dropdown-headline">' . $languageService->sL('No domains configured.') . '</p>';
+                $content .= '<p class="dropdown-headline">' . $this->getLocalizedLabel('No domains configured.') . '</p>';
             }
         }
 
@@ -188,17 +186,16 @@ class CloudflareToolbarItem implements ToolbarItemInterface
      */
     protected function getZoneIcon($status)
     {
-        $languageService = $this->getLanguageService();
         switch ($status) {
             case 'active':
-                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-online', ['title' => $languageService->sL('zone_active')]);
+                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-online', ['title' => $this->getLocalizedLabel('zone_active')]);
                 break;
             case 'dev-mode':
-                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-direct', ['title' => $languageService->sL('zone_development')]);
+                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-direct', ['title' => $this->getLocalizedLabel('zone_development')]);
                 break;
             case 'deactivated':
             default:
-                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-offline', ['title' => $languageService->sL('zone_inactive')]);
+                $icon = $this->getSpriteIcon('extensions-ns_cloudflare-offline', ['title' => $this->getLocalizedLabel('zone_inactive')]);
                 break;
         }
         return $icon;
@@ -288,8 +285,8 @@ class CloudflareToolbarItem implements ToolbarItemInterface
      */
     public function toggleDevelopmentMode(ServerRequestInterface $request)
     {
-        $zone = $request['zone'];
-        $active = $request['active'];
+        $zone = $request->getParsedBody()['zone'];
+        $active = $request->getParsedBody()['active'];
         $ret = [];
         try {
             $ret = $this->cloudflareService->send('/zones/' . $zone . '/settings/development_mode', [
@@ -318,8 +315,8 @@ class CloudflareToolbarItem implements ToolbarItemInterface
 
         return new JsonResponse([
             'success' => true,
-            'title' => 'Caches cleared',
-            'message' => 'Successfully cleared cloudflare caches.'
+            'title' => $this->getLocalizedLabel('clear_cache'),
+            'message' => $this->getLocalizedLabel('clear_cache.description')
         ]);
     }
 
@@ -342,9 +339,9 @@ class CloudflareToolbarItem implements ToolbarItemInterface
      *
      * @return \TYPO3\CMS\Core\Localization\LanguageService
      */
-    protected function getLanguageService()
+    protected function getLocalizedLabel(string $key)
     {
-        return $GLOBALS['LANG'];
+        return LocalizationUtility::translate($key,'NsCloudflare');
     }
 
 }

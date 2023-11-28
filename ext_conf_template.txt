@@ -10,9 +10,6 @@ apiKey =
 # cat=basic//30; type=user[NITSAN\NsCloudflare\ExtensionManager\Configuration->getDomains]; label=LLL:EXT:ns_cloudflare/Resources/Private/Language/locallang_db.xlf:settings.domains
 domains =
 
-# cat=basic//40; type=boolean; label=LLL:EXT:ns_cloudflare/Resources/Private/Language/locallang_db.xlf:settings.enableAnalyticsModule
-enableAnalyticsModule = 1
-
 # cat=advanced/enable/10; type=boolean; label=LLL:EXT:ns_cloudflare/Resources/Private/Language/locallang_db.xlf:settings.enableOriginatingIPs
 enableOriginatingIPs = 0
 

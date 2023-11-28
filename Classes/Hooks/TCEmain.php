@@ -157,7 +157,7 @@ class TCEmain
             return null;
         }
 
-        $previewBuilder = GeneralUtility::makeInstance(PreviewUriBuilder::class);
+        $previewBuilder = GeneralUtility::makeInstance(PreviewUriBuilder::class, $uid);
         return $previewBuilder->buildUri(["uid" => $uid]);
     }
 
@@ -202,7 +202,7 @@ class TCEmain
                 'files' => [$url],
             ], 'DELETE');
 
-
+            \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($ret,__FILE__.''.__LINE__);die;
             if ($ret['result'] === 'error') {
                 $this->writelog(4, 1, 1, 0, 'User %s failed to clear the cache on Cloudflare (domain: "%s") for "%s": %s', [$this->backendUserAspect->get('username'), $domain, $url, $ret['msg']]);
             } else {
