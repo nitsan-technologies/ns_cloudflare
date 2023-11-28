@@ -14,6 +14,7 @@
     "ssl",
     "performance"
   ],
+  "license": "GPL-2.0-or-later",
   "support": {
     "issues": "https://github.com/nitsan-technologies/ns_cloudflare/issues"
   },
