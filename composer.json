@@ -2,7 +2,12 @@
   "name": "nitsan/ns-cloudflare",
   "type": "typo3-cms-extension",
   "description": "https://t3planet.com/ns-cloudflare-typo3-extension",
-  "homepage": "https://extensions.typo3.org/extension/ns_cloudflare/",
+  "authors": [
+    {
+      "name": "Team NITSAN",
+      "email": "sanjay@nitsan.in"
+    }
+  ],
   "keywords": [
     "TYPO3 CMS",
     "cloudflare",
@@ -15,15 +20,6 @@
     "performance"
   ],
   "license": "GPL-2.0-or-later",
-  "support": {
-    "issues": "https://github.com/nitsan-technologies/ns_cloudflare/issues"
-  },
-  "authors": [
-    {
-      "name": "Team NITSAN",
-      "email": "sanjay@nitsan.in"
-    }
-  ],
   "require": {
     "ext-curl": "*",
     "typo3/cms-core": "^11 || ^12"
@@ -35,6 +31,13 @@
   },
   "replace": {
     "typo3-ter/ns-cloudflare": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor/",
+    "bin-dir": ".Build/bin/"
+  },
+  "support": {
+    "issues": "https://github.com/nitsan-technologies/ns_cloudflare/issues"
   },
   "extra": {
     "typo3/cms": {
