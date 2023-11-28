@@ -55,7 +55,7 @@ class TCEmain
         static $handledPageUids = [];
         static $handledTags = [];
 
-        $enablePurgeByUrl = isset($this->config['enablePurgeSingleFile']) && (bool)$this->config['enablePurgeSingleFile'];
+        $enablePurgeByUrl = isset($this->config['enablePurgePage']) && (bool)$this->config['enablePurgePage'];
         $enablePurgeByTags = isset($this->config['enablePurgeByTags']) && (bool)$this->config['enablePurgeByTags'];
 
         if (!isset($params['cacheCmd'])) {

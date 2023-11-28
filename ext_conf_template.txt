@@ -14,7 +14,7 @@ domains =
 enableOriginatingIPs = 0
 
 # cat=advanced/enable/30; type=boolean; label=LLL:EXT:ns_cloudflare/Resources/Private/Language/locallang_db.xlf:settings.enablePurgeSingleFile
-enablePurgeSingleFile = 0
+enablePurgePage = 0
 
 # cat=advanced/enable/40; type=boolean; label=LLL:EXT:ns_cloudflare/Resources/Private/Language/locallang_db.xlf:settings.enablePurgeByTags
 enablePurgeByTags = 0
