@@ -1,7 +1,7 @@
 {
   "name": "nitsan/ns-cloudflare",
   "type": "typo3-cms-extension",
-  "description": "The TYPO3 Cloudflare Extension simplifies cache management, offering an efficient solution for TYPO3 administrators and developers. Seamlessly integrating with Cloudflare, a global leader in web performance and security, this extension provides advanced features to optimize, secure, and structure your online presence.Compatible with TYPO3 version 12. Documentation & Free Support: https://t3planet.com/typo3-cloudflare-extension",
+  "description": "The TYPO3 Cloudflare Extension simplifies cache management, offering an efficient solution for TYPO3 administrators and developers. Seamlessly integrating with Cloudflare, a global leader in web performance and security, this extension provides advanced features to optimize, secure, and structure your online presence.Compatible with TYPO3 version 12.",
   "authors": [
     {
       "name": "Team NITSAN",
