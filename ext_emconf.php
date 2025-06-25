@@ -1,15 +1,12 @@
 <?php
 
 $EM_CONF['ns_cloudflare'] = [
-    'title' => 'Cloudflare',
-    'description' => '
-    This extension is a fork and draws significant inspiration from EXT:cloudflare. We value their contributions.
-    The TYPO3 Cloudflare Extension simplifies cache management, offering an efficient solution for TYPO3 administrators and developers. Seamlessly integrating with Cloudflare, a global leader in web performance and security, this extension provides advanced features to optimize, secure, and structure your online presence. Compatible with latest TYPO3 version. 
-    Documentation & Free Support: https://t3planet.com/typo3-cloudflare-extension',
+    'title' => 'TYPO3 Cloudflare Cache Manager',
+    'description' => 'A TYPO3 extension to simplify cache management via Cloudflare. Seamlessly integrates with Cloudflare to enhance site performance and security for developers and administrators.',
     'category' => 'services',
-    'author' => 'T3: Nilesh Malankiya, T3: Rohan Parmar QA: Krishna Dhapa',
-    'author_company' => 'T3Planet // NITSAN',
-    'author_email' => 'sanjay@nitsan.in',
+    'author' => 'Team T3Planet',
+    'author_company' => 'T3Planet',
+    'author_email' => 'info@t3planet.de',
     'state' => 'stable',
     'version' => '1.0.3',
     'constraints' => [
