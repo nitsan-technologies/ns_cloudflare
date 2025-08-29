@@ -20,6 +20,11 @@
     "performance"
   ],
   "license": "GPL-2.0-or-later",
+  "support": {
+    "issues": "https://github.com/nitsan-technologies/ns_cloudflare/issues",
+    "source": "https://github.com/nitsan-technologies/ns_cloudflare",
+    "docs": "https://docs.typo3.org/p/nitsan/ns-cloudflare/main/en-us/"
+  },
   "require": {
     "ext-curl": "*",
     "typo3/cms-core": "^11 || ^12"
@@ -35,9 +40,6 @@
   "config": {
     "vendor-dir": ".Build/vendor/",
     "bin-dir": ".Build/bin/"
-  },
-  "support": {
-    "issues": "https://github.com/nitsan-technologies/ns_cloudflare/issues"
   },
   "extra": {
     "typo3/cms": {
