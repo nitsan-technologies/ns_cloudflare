@@ -8,10 +8,11 @@ $EM_CONF['ns_cloudflare'] = [
     'author_email' => 'info@nitsantech.de',
     'author_company' => 'NITSAN',
     'state' => 'stable',
-    'version' => '1.0.5',
+    'version' => '1.0.6',
     'constraints' => [
         'depends' => [
             'typo3' => '11.5.0-12.9.99',
+            'ns_license' => '14.5.4-14.9.99',
         ],
     ],
     'autoload' => [
