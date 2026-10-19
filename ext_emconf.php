@@ -12,6 +12,7 @@ $EM_CONF['ns_cloudflare'] = [
     'constraints' => [
         'depends' => [
             'typo3' => '11.5.0-12.9.99',
+            'ns_license' => '14.5.4-14.9.99',
         ],
     ],
     'autoload' => [
